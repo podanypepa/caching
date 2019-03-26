@@ -1,0 +1,46 @@
+[
+    {
+        "key": "PA",
+        "value": "Paris – The City of Love, The City of Light, La Ville-Lumiere"
+    },
+    {
+        "key": "PR",
+        "value": "Prague – The City of Hundred Spires, The Golden City, The Mother of Cities"
+    },
+    {
+        "key": "NY",
+        "value": "New York – The Big Apple"
+    },
+    {
+        "key": "LV",
+        "value": "Las Vegas – Sin City"
+    },
+    {
+        "key": "LA",
+        "value": "Los Angeles – The City of Angels"
+    },
+    {
+        "key": "NO",
+        "value": "New Orleans – The Big Easy"
+    },
+    {
+        "key": "PH",
+        "value": "Philadelphia – City of Brotherly Love, Philly"
+    },
+    {
+        "key": "LO",
+        "value": "London – The Square Mile, The Old Smoke, The Smoke"
+    },
+    {
+        "key": "MI",
+        "value": "Miami – The Magic City, Little Cuba"
+    },
+    {
+        "key": "MO",
+        "value": "Moscow – The Whitestone, The Forty Forties, Third Rome"
+    },
+    {
+        "key": "ZN",
+        "value": "Znojmo"
+    }
+]
