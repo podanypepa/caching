@@ -98,7 +98,7 @@ func (sc Cache) FindAll(key string) map[string]string {
 type KeyValueStore map[string]string
 
 type data struct {
-	mux    sync.Mutex
+	mux    sync.RWMutex
 	name   string
 	cache  map[string]string
 	loader func() (KeyValueStore, error)
@@ -115,16 +115,16 @@ func (d *data) set(key, value string) {
 
 }
 func (d *data) get(key string) (string, bool) {
-	d.mux.Lock()
-	defer d.mux.Unlock()
+	d.mux.RLock()
+	defer d.mux.RUnlock()
 
 	value, ok := d.cache[key]
 	return value, ok
 }
 
 func (d *data) len() int {
-	d.mux.Lock()
-	defer d.mux.Unlock()
+	d.mux.RLock()
+	defer d.mux.RUnlock()
 
 	return len(d.cache)
 }
