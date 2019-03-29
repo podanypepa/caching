@@ -53,7 +53,7 @@ var cfg = [...]cacheConfig{{
 
 func main() {
 
-    c := make(cache.Cache)
+    c := cache.Init()
 
     fmt.Println("LOADING DATA 2 CACHE")
     for _, cc := range cfg {
