@@ -107,7 +107,8 @@ package main
 import "caching/cache"
 
 func main() {
-    c := make(cache.Cache)
+
+    c := cache.Init()
 
     rs := "people"
     c.CreateEmpty(rs)
