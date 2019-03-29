@@ -9,6 +9,11 @@ import (
 // Cache contains multiple caches
 type Cache map[string]*data
 
+// Init cahce
+func Init() Cache {
+	return make(Cache)
+}
+
 // Create new cache in Cache
 func (sc Cache) Create(name string, loader func() (KeyValueStore, error), ttl int64) (int, error) {
 	if _, ok := sc[name]; ok {
