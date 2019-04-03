@@ -60,7 +60,7 @@ func Get(key string, caches ...cache) (map[string]string, bool) {
 // jen fejkove data, aby neco bylo
 func exampleLoader() map[string]string {
 	d := make(map[string]string)
-	d["NT"] = "New York"
+	d["NY"] = "New York"
 	d["LA"] = "Los Angeles"
 	return d
 }
