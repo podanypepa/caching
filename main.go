@@ -24,25 +24,20 @@ var citiesFile = "./data/cities.json"
 type cacheConfig struct {
 	name   string
 	loader func() (cache.KeyValueStore, error)
-	ttl    int64
 }
 
 var cfg = [...]cacheConfig{{
 	name:   "cities",
 	loader: resources.JSONFile(citiesFile),
-	ttl:    2000,
 }, {
 	name:   "states",
 	loader: resources.Static(),
-	ttl:    2000,
 }, {
 	name:   "fruits",
 	loader: resources.Redis(ro),
-	ttl:    2000,
 }, {
 	name:   "flight",
 	loader: resources.Postgresql(po),
-	ttl:    2000,
 }}
 
 func main() {
@@ -51,7 +46,7 @@ func main() {
 
 	fmt.Println("LOADING DATA 2 CACHE")
 	for _, cc := range cfg {
-		num, err := c.Create(cc.name, cc.loader, cc.ttl)
+		num, err := c.Create(cc.name, cc.loader)
 		if err != nil {
 			log.Fatal(err)
 		}

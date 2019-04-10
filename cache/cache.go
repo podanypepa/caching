@@ -3,7 +3,6 @@ package cache
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 // Cache contains multiple caches
@@ -15,7 +14,7 @@ func Init() Cache {
 }
 
 // Create new cache in Cache
-func (sc Cache) Create(name string, loader func() (KeyValueStore, error), ttl int64) (int, error) {
+func (sc Cache) Create(name string, loader func() (KeyValueStore, error)) (int, error) {
 	if _, ok := sc[name]; ok {
 		return 0, fmt.Errorf("cache %s already exists", name)
 	}
@@ -24,7 +23,6 @@ func (sc Cache) Create(name string, loader func() (KeyValueStore, error), ttl in
 		cache:  make(map[string]string),
 		loader: loader,
 		name:   name,
-		ttl:    ttl,
 	}
 
 	return sc.Update(name)
@@ -39,7 +37,6 @@ func (sc Cache) CreateEmpty(name string) error {
 	sc[name] = &data{
 		cache: make(map[string]string),
 		name:  name,
-		ttl:   60 * 1000,
 	}
 
 	return nil
@@ -103,8 +100,6 @@ type data struct {
 	name   string
 	cache  map[string]string
 	loader func() (KeyValueStore, error)
-	ttl    int64
-	lu     int64
 }
 
 func (d *data) set(key, value string) {
@@ -112,16 +107,11 @@ func (d *data) set(key, value string) {
 	defer d.mux.Unlock()
 
 	d.cache[key] = value
-	d.lu = makeTimestamp()
-
 }
+
 func (d *data) get(key string) (string, bool) {
 	d.mux.RLock()
 	defer d.mux.RUnlock()
-
-	if makeTimestamp()-d.lu > d.ttl {
-		d.update()
-	}
 
 	value, ok := d.cache[key]
 	return value, ok
@@ -147,13 +137,8 @@ func (d *data) update() (int, error) {
 		defer wg.Done()
 		d.cache, err = d.loader()
 		num = len(d.cache)
-		d.lu = makeTimestamp()
 	}()
 	wg.Wait()
 
 	return num, err
-}
-
-func makeTimestamp() int64 {
-	return time.Now().UnixNano() / int64(time.Millisecond)
 }
