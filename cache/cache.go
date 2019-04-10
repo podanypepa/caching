@@ -51,10 +51,6 @@ func (sc Cache) Get(name, key string) (string, bool) {
 		return "", false
 	}
 
-	if makeTimestamp()-sc[name].lu > sc[name].ttl {
-		sc.Update(name)
-	}
-
 	return sc[name].get(key)
 }
 
@@ -122,6 +118,10 @@ func (d *data) set(key, value string) {
 func (d *data) get(key string) (string, bool) {
 	d.mux.RLock()
 	defer d.mux.RUnlock()
+
+	if makeTimestamp()-d.lu > d.ttl {
+		d.update()
+	}
 
 	value, ok := d.cache[key]
 	return value, ok
