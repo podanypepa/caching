@@ -27,9 +27,13 @@ func Postgresql(o PostgreOptions) func() (cache.KeyValueStore, error) {
 		for rows.Next() {
 			var key string
 			var value string
-			rows.Scan(&key, &value)
-			d[key] = value
+			err := rows.Scan(&key, &value)
+			if err != nil {
+				d[key] = value
+			}
+
 		}
+
 		return d, nil
 	}
 }
